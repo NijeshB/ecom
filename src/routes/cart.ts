@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { errorHandler } from "../error-handler";
 import authMiddleware from "../middlewares/auth";
-import adminMiddleware from "../middlewares/admin";
 import {
   additemToCart,
   changeQuantity,
@@ -11,24 +10,12 @@ import {
 
 const cartRoutes: Router = Router();
 
-cartRoutes.post(
-  "/",
-  [authMiddleware, adminMiddleware],
-  errorHandler(additemToCart)
-);
+cartRoutes.post("/", [authMiddleware], errorHandler(additemToCart));
 
-cartRoutes.get("/", [authMiddleware, adminMiddleware], errorHandler(getCart));
+cartRoutes.get("/", [authMiddleware], errorHandler(getCart));
 
-cartRoutes.put(
-  "/:id",
-  [authMiddleware, adminMiddleware],
-  errorHandler(changeQuantity)
-);
+cartRoutes.put("/:id", [authMiddleware], errorHandler(changeQuantity));
 
-cartRoutes.delete(
-  "/:id",
-  [authMiddleware, adminMiddleware],
-  errorHandler(deleteItemFromcart)
-);
+cartRoutes.delete("/:id", [authMiddleware], errorHandler(deleteItemFromcart));
 
 export default cartRoutes;
