@@ -4,6 +4,7 @@ import { ErrorCode } from "../exceptions/root";
 import * as jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../secrets";
 import { prismaClient } from "..";
+import { UserWithoutPasswordDates } from "./../types/user";
 
 const authMiddleware = async (
   req: Request,
@@ -21,12 +22,12 @@ const authMiddleware = async (
     const payload: { userId: number } = jwt.verify(token, JWT_SECRET) as any;
     const user = await prismaClient.user.findFirst({
       where: { id: payload.userId },
+      //omit: { password: true },
     });
 
     if (!user) {
       next(new UnauthorizedException("Unauthorized", ErrorCode.UNAUTHORIZED));
     }
-
     req.user = user;
     next();
   } catch (error) {
