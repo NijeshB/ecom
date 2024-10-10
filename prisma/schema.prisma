@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["omitApi"]
+  previewFeatures = ["omitApi", "fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -67,8 +67,8 @@ model Product{
   updatedAt DateTime @updatedAt
 
   cartItems CartItem[]
-  @@map("products")
-  OrderProduct OrderProduct[]
+  orders OrderProduct[]
+  @@map("products")  
 }
 
 model CartItem{
@@ -90,16 +90,17 @@ model Order{
     user User @relation(fields: [userId], references: [id])
     netAmount Decimal
     address String
+    status OrderEventStatus @default(PENDING)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    orders OrderProduct[]
+    products OrderProduct[]
     events OrderEvent[]
 
     @@map("orders") 
 }
 
 model OrderProduct{
-   id Int @id @default(autoincrement())
+    id Int @id @default(autoincrement())
     orderId Int
     order Order @relation(fields: [orderId], references: [id])
     productId Int
@@ -112,7 +113,7 @@ model OrderProduct{
 }
 
 model OrderEvent{
- id Int @id @default(autoincrement())
+    id Int @id @default(autoincrement())
     orderId Int
     order Order @relation(fields: [orderId], references: [id])
     status OrderEventStatus @default(PENDING)
