@@ -32,6 +32,12 @@ productsRoutes.delete(
 );
 
 productsRoutes.get(
+  "/ss",
+  [authMiddleware, adminMiddleware],
+  errorHandler(searchProducts)
+);
+
+productsRoutes.get(
   "/",
   [authMiddleware, adminMiddleware],
   errorHandler(listProduct)
@@ -43,9 +49,4 @@ productsRoutes.get(
   errorHandler(getProductById)
 );
 
-productsRoutes.get(
-  "/search",
-  [authMiddleware, adminMiddleware],
-  errorHandler(searchProducts)
-);
 export default productsRoutes;
