@@ -32,7 +32,7 @@ productsRoutes.delete(
 );
 
 productsRoutes.get(
-  "/ss",
+  "/sss",
   [authMiddleware, adminMiddleware],
   errorHandler(searchProducts)
 );

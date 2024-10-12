@@ -82,8 +82,6 @@ export const getProductById = async (req: Request, res: Response) => {
 };
 
 export const searchProducts = async (req: Request, res: Response) => {
-  console.log("dsd!!", req);
-  res.send("ok");
   const products = await prismaClient.product.findMany({
     where: {
       name: {
